@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+// const connectDB = require("../config/db");
 // defining schema for users
 const UserSchema = new mongoose.Schema({
   name: {
