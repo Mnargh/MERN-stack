@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://Admin:Miriam666@mern-htg65.mongodb.net/test?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://Admin:Miriam666@mern-htg65.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "mysecrettoken"
 }
