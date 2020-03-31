@@ -20,7 +20,7 @@ router.get("/me", auth, async (req, res) => {
 
     // check to see if there is no profile
     if (!profile) {
-      return res.status(400).json({ msg: "There is no profile for this user" });
+      return res.status(400).json({ msg: "Profile not found" });
     }
 
     res.json(profile);
@@ -131,4 +131,27 @@ router.get("/", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+// @route           GET api/profile/user/:user_id
+// @description     Get profile by user ID
+// @access          Public
+
+router.get("/user/:user_id", async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.params.user_id
+    }).populate("user", ["name", "avatar"]);
+
+    if (!profile) return res.status(400).json({ msg: "Profile not found" });
+
+    res.json(profile);
+  } catch (error) {
+    console.error(error.message);
+    if (error.kind == "ObjectId") {
+      return res.status(400).json({ msg: "Profile not found" });
+    }
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
