@@ -13,11 +13,9 @@ const User = require("../../models/User");
 // @access          private - getting profile by user id in the token, so they have to use the token
 router.get("/me", auth, async (req, res) => {
   try {
-    console.log(req.user.id);
-    console.log(Profile.findOne({ user: req.user.id }));
     // brings in profile
     const profile = await Profile.findOne({
-      user: req.user.id
+      user: req.user.id,
     }).populate("user", ["name", "avatar"]);
 
     // check to see if there is no profile
@@ -41,12 +39,8 @@ router.post(
   // using auth and validation middleware so add in array as parameters
   [
     auth,
-    check("status", "Status is required")
-      .not()
-      .isEmpty(),
-    check("skills", "Skills is required")
-      .not()
-      .isEmpty()
+    check("status", "Status is required").not().isEmpty(),
+    check("skills", "Skills is required").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -66,7 +60,7 @@ router.post(
       facebook,
       twitter,
       instagram,
-      linkedin
+      linkedin,
     } = req.body;
 
     // build profile object
@@ -81,7 +75,7 @@ router.post(
     if (status) profileFields.status = status;
     if (githubusername) profileFields.githubusername = githubusername;
     if (skills) {
-      profileFields.skills = skills.split(",").map(skill => skill.trim());
+      profileFields.skills = skills.split(",").map((skill) => skill.trim());
     }
 
     // build social object
@@ -141,7 +135,7 @@ router.get("/", async (req, res) => {
 router.get("/user/:user_id", async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.params.user_id
+      user: req.params.user_id,
     }).populate("user", ["name", "avatar"]);
 
     if (!profile) return res.status(400).json({ msg: "Profile not found" });
@@ -188,15 +182,9 @@ router.put(
   "/experience",
   [
     auth,
-    check("title", "Title is required")
-      .not()
-      .isEmpty(),
-    check("company", "Company is required")
-      .not()
-      .isEmpty(),
-    check("from", "From date is required")
-      .not()
-      .isEmpty()
+    check("title", "Title is required").not().isEmpty(),
+    check("company", "Company is required").not().isEmpty(),
+    check("from", "From date is required").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -211,7 +199,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     } = req.body);
 
     try {
@@ -239,7 +227,7 @@ router.delete("/experience/:exp_id", auth, async (req, res) => {
 
     // Get remove index
     const removeIndex = profile.experience
-      .map(item => item.id)
+      .map((item) => item.id)
       .indexOf(req.params.exp_id);
 
     profile.experience.splice(removeIndex, 1);
@@ -261,18 +249,10 @@ router.put(
   "/education",
   [
     auth,
-    check("school", "School is required")
-      .not()
-      .isEmpty(),
-    check("degree", "Degree is required")
-      .not()
-      .isEmpty(),
-    check("fieldofstudy", "Field of study is required")
-      .not()
-      .isEmpty(),
-    check("from", "From date is required")
-      .not()
-      .isEmpty()
+    check("school", "School is required").not().isEmpty(),
+    check("degree", "Degree is required").not().isEmpty(),
+    check("fieldofstudy", "Field of study is required").not().isEmpty(),
+    check("from", "From date is required").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -287,7 +267,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     } = req.body);
 
     try {
@@ -315,7 +295,7 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
 
     // Get remove index
     const removeIndex = profile.education
-      .map(item => item.id)
+      .map((item) => item.id)
       .indexOf(req.params.edu_id);
 
     profile.education.splice(removeIndex, 1);
@@ -342,7 +322,7 @@ router.get("/github/:username", (req, res) => {
         "githubClientId"
       )}&client_secret=${config.get("githubSecret")}`,
       method: "GET",
-      headers: { "user-agent": "node.js" }
+      headers: { "user-agent": "node.js" },
     };
 
     request(options, (error, response, body) => {
