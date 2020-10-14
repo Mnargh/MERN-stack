@@ -14,7 +14,6 @@ before_install:
 jobs:
   include:
     - stage: build docker image
-      if: branch = master
       script:
       - aws s3 ls
       # - aws ecr get-login-password --region ${aws_region} | docker login --username AWS --password-stdin ${aws_acc_num}.dkr.ecr.eu-west-1.amazonaws.com
@@ -22,5 +21,5 @@ jobs:
       # check to see if image exists yet
       # - docker tag mern-stack:{image_version} {aws_acc_num}.dkr.ecr.{aws_region}.amazonaws.com/mern-stack:{image_version}
       # - docker push $DOCKER_USERNAME/travis-ci-build-stages-demo
-    
+
 
