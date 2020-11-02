@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const config = require('config');
-const db = `mongodb+${process.env.MONGODB_ACCESS}.mongodb.net/test?retryWrites=true&w=majority`;
+const db = `mongodb+srv://Admin:${process.env.MONGODB_ACCESS}@mern-htg65.mongodb.net/test?retryWrites=true&w=majority`;
 
 // connect function with callback
 const connectDB = async () => {
