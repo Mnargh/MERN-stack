@@ -1,26 +1,26 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const auth = require("../../middleware/auth");
-const jwt = require("jsonwebtoken");
-const config = require("config");
-const { check, validationResult } = require("express-validator");
+const bcrypt = require('bcryptjs');
+const auth = require('../../middleware/auth');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const { check, validationResult } = require('express-validator');
 
-const User = require("../../models/User");
+const User = require('../../models/User');
 // @route           GET api/auth
 // @description     auth route
 // @access          public
-router.get("/", auth, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     // need to import and find the exact User
     // since this is protected route, and we used the token which has an id
     // and in middleware we set req.user to the user in the token, we can access that in a protected route to get the id
     // don't want to return the password, so add a select for without password
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
@@ -28,10 +28,10 @@ router.get("/", auth, async (req, res) => {
 // @description     Authenticate user and get token
 // @access          public
 router.post(
-  "/",
+  '/',
   [
-    check("email", "Please include a valid email").isEmail(),
-    check("password", "Password is required").exists()
+    check('email', 'Please include a valid email').isEmail(),
+    check('password', 'Password is required').exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -48,7 +48,7 @@ router.post(
       if (!user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "Invalid credentials" }] });
+          .json({ errors: [{ msg: 'Invalid credentials' }] });
       }
 
       // compare takes first param password, which is what plaintext password user has entered
@@ -59,7 +59,7 @@ router.post(
       if (!isMatch) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "Invalid credentials" }] });
+          .json({ errors: [{ msg: 'Invalid credentials' }] });
         // for security reasons, need to keep message the same if user not found or password wrong for security reasons
       }
 
@@ -67,15 +67,15 @@ router.post(
       // get payload
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
 
       // sign token, passing in payload and secret
       // required to be logged in straight away
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        process.env.JWT_SECRET,
         { expiresIn: 360000 },
         (error, token) => {
           if (error) throw error;
@@ -84,7 +84,7 @@ router.post(
       );
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Server Error");
+      res.status(500).send('Server Error');
     }
   }
 );

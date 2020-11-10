@@ -1,25 +1,25 @@
 //
-const jwt = require("jsonwebtoken");
-const config = require("config");
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   // get token from header
-  const token = req.header("x-auth-token");
+  const token = req.header('x-auth-token');
 
   // check if no token i.e. route is protected from the user
   if (!token) {
-    return res.status(401).json({ msg: "No token, authorisation denied" });
+    return res.status(401).json({ msg: 'No token, authorisation denied' });
   }
 
   // verify token
   try {
-    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // take request object and assign a value to the user
     req.user = decoded.user;
     next(); // called in any middleware to skip to next middleware
   } catch (err) {
-    res.status(401).json({ msg: "Token is not valid" });
+    res.status(401).json({ msg: 'Token is not valid' });
   }
 };
 // has access to req and res objects
