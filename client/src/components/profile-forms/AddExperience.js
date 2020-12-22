@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 import { addExperience } from '../../actions/profile';
 
 
-const AddExperience = props => {
-  const [ formData, setFormData] = useState({
+const AddExperience = ({ addExperience, history }) => {
+  const [ formData, setFormData ] = useState({
     company: '',
     title: '',
     location: '',
@@ -20,7 +20,7 @@ const AddExperience = props => {
 
   const { company, title, location, from, to, current, description } = formData;
 
-  const onChange = e => setFormData({ ...FormData, [e.target.name]: e.target.value});
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value});
 
   return (
       <Fragment>
@@ -32,7 +32,10 @@ const AddExperience = props => {
           positions that you have had in the past
         </p>
         <small>* = required field</small>
-        <form class="form">
+        <form class="form" onSubmit={e => {
+          e.preventDefault();
+          addExperience(formData, history)
+        }}>
           <div class="form-group">
             <input type="text" placeholder="* Job Title" name="title" value={title} onChange={e=> onChange(e)} required />
           </div>
@@ -66,7 +69,7 @@ const AddExperience = props => {
             ></textarea>
           </div>
           <input type="submit" class="btn btn-primary my-1" />
-          <a class="btn btn-light my-1" href="dashboard.html">Go Back</a>
+          <a class="btn btn-light my-1" href="/dashboard">Go Back</a>
         </form>
       </Fragment>
   )
