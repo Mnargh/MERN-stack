@@ -8,7 +8,7 @@ const Experience = ({ experience, deleteExperience }) => {
   const experiences = experience.map(exp => (
     <tr key={exp._id}>
       <td>{exp.company}</td>
-      <td classname="hide-sm">{exp.title}</td>
+      <td className="hide-sm">{exp.title}</td>
       <td>
         <Moment format='YYYY/MM/DD'>{exp.from}</Moment> -{' '}
           {exp.to === null ? ( 
