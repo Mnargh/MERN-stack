@@ -73,7 +73,7 @@ export const getGithubRepos = username => async dispatch => {
 
 export const getProfileByID = userID => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/profile/user${userID}`);
+    const res = await axios.get(`/api/profile/user/${userID}`);
 
     dispatch({
       type: GET_PROFILE,
@@ -216,7 +216,7 @@ export const deleteExperience = id => async dispatch => {
   } catch (error) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: error.response.statusText, status : error.response.status }
+      payload: { msg: error.response.statusText, status: error.response.status }
     });
   }
 };
@@ -236,7 +236,7 @@ export const deleteEducation = id => async dispatch => {
   } catch (error) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: error.response.statusText, status : error.response.status }
+      payload: { msg: error.response.statusText, status: error.response.status }
     });
   }
 };
@@ -244,26 +244,26 @@ export const deleteEducation = id => async dispatch => {
 // Delete Account & profile
 
 export const deleteAccount = () => async dispatch => {
-  if(window.confirm('Are you sure? This cannot be undone!')) {
+  if (window.confirm('Are you sure? This cannot be undone!')) {
 
     try {
-    await axios.delete(`/api/profile/`);
+      await axios.delete(`/api/profile/`);
 
-    dispatch({
-      type: CLEAR_PROFILE,
-    });
-    dispatch({
-      type: ACCOUNT_DELETED,
-    });
+      dispatch({
+        type: CLEAR_PROFILE,
+      });
+      dispatch({
+        type: ACCOUNT_DELETED,
+      });
 
 
-    dispatch(setAlert("Your Account has been deleted"));
+      dispatch(setAlert("Your Account has been deleted"));
 
-  } catch (error) {
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: { msg: error.response.statusText, status : error.response.status }
-    });
-  }
+    } catch (error) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: error.response.statusText, status: error.response.status }
+      });
+    }
   }
 };
