@@ -1,6 +1,6 @@
 {
-  "mongoURI": "tobeadded",
-  "jwtSecret": "tobeadded",
-  "githubClientId": "tobeadded",
-  "githubSecret": "tobeadded"
+  "mongoURI": "",
+  "jwtSecret": "",
+  "githubClientID": "",
+  "githubSecret": ""
 }
