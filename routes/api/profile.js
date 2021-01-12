@@ -159,7 +159,7 @@ router.delete('/', auth, async (req, res) => {
   try {
     // remove users posts
     await Post.deleteMany({ user: req.user.id })
-    
+
     // remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
 
@@ -327,7 +327,7 @@ router.get('/github/:username', (req, res) => {
       if (error) console.error(error);
 
       if (response.statusCode !== 200) {
-        res.status(404).json({ msg: 'No Github Profile found' });
+        return res.status(404).json({ msg: 'No Github Profile found' });
       }
       res.json(JSON.parse(body));
     });
