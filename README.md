@@ -7,7 +7,7 @@
 
 DevConnector - A social media site for developers to network on. Users can register, log in, generate a profile, add experience, skills, social links to their profile and view other developers' profiles.
 
-Currently hosted at https://prod.t.useyourbra.in/
+I previously hosted at https://prod.t.useyourbra.in/ however currently am not hosting to save on costs with AWS. 
 
 See screenshots in the [screenshots](#screenshots) section
 
